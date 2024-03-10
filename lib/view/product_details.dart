@@ -168,11 +168,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                 return ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     padding: EdgeInsets.all(8.0),
+                    backgroundColor: Color(0xFFc9e83f),
+
                   ),
-                  child: Text(size[index]),
+                  child: Text(size[index],style: TextStyle(color: Colors.black),),
                   onPressed: () {
                     setState(() {
                       AvailableProperties sizeProperty = widget.product.availableProperties.firstWhere(
@@ -425,7 +427,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                   style: TextStyle(color: Colors.white, fontSize: 15),
                 ),
               ),
-              Text('Material Chart'),
+              Padding(
+                padding: EdgeInsets.only(right: 15),
+                child: Text('Material Chart',
+                    style: TextStyle(color: Colors.white, fontSize: 15)),
+              ),
             ],
           ),
           Center(
@@ -438,11 +444,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                   return ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0), // Adjust the radius for an oval shape
+                        borderRadius: BorderRadius.circular(14),
                       ),
                       padding: EdgeInsets.all(8.0),
+                      backgroundColor: Color(0xFFc9e83f),
+
                     ),
-                    child: Text(materials[index]),
+                    child: Text(materials[index],style: TextStyle(color: Colors.black),),
+
                     onPressed: () {
                       setState(() {
                         AvailableProperties materialProperty = widget.product.availableProperties.firstWhere(
