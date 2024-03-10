@@ -4,9 +4,8 @@ import 'package:slash_internship/view/product_details.dart';
 
 import '../model/product_model.dart';
 
-
 class ViewProducts extends StatefulWidget {
-  const ViewProducts({super.key});
+  const ViewProducts({Key? key}) : super(key: key);
 
   @override
   State<ViewProducts> createState() => _ViewProductsState();
@@ -34,7 +33,6 @@ class _ViewProductsState extends State<ViewProducts> {
               mainAxisSpacing: 10,
             ),
             itemBuilder: (context, index) {
-
               return _productCard(products[index]);
             },
           );
@@ -59,10 +57,8 @@ class _ViewProductsState extends State<ViewProducts> {
     return Card(
       color: Colors.black,
       child: Column(
-        //Product image
         children: [
           _buildProductImage(product, size),
-          //Product name
           _buildProductNameRow(product),
           _buildProductPriceRow(product),
         ],
@@ -70,16 +66,14 @@ class _ViewProductsState extends State<ViewProducts> {
     );
   }
 
-  _buildProductImage(Product product, size) {
+  Widget _buildProductImage(Product product, double size) {
     final image = NetworkImage(product.variations[0].productVariantImages[0]);
     return GestureDetector(
-      onTap: ()async{
-        product = await ProductsService().fetchProductDetails(product.id);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetails(product: product,)));
-
+      onTap: () async {
+        product = (await ProductsService().fetchProductDetails(product.id)) as Product;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetails(product: product)));
       },
       child: Container(
-        
         height: size,
         width: size,
         decoration: BoxDecoration(
@@ -94,14 +88,14 @@ class _ViewProductsState extends State<ViewProducts> {
     );
   }
 
-  _buildProductNameRow(Product product) {
+  Widget _buildProductNameRow(Product product) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 8),
+            padding: const EdgeInsets.only(left: 8),
             child: Text(
               product.name,
               style: _detailsTextStyle(),
@@ -135,7 +129,6 @@ class _ViewProductsState extends State<ViewProducts> {
             style: _detailsTextStyle(),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                 onPressed: () {},
@@ -152,9 +145,7 @@ class _ViewProductsState extends State<ViewProducts> {
     );
   }
 
-
   TextStyle _detailsTextStyle() {
-    return const TextStyle(
-        fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white);
+    return const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white);
   }
 }

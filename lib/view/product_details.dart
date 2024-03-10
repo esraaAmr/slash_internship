@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:slash_internship/view/reusable_widgets.dart';
@@ -6,7 +5,6 @@ import 'package:slash_internship/view/reusable_widgets.dart';
 import '../model/available_properties_model.dart';
 import '../model/product_model.dart';
 import '../model/product_variation_model.dart';
-
 
 class ProductDetails extends StatefulWidget {
   final Product product;
@@ -25,18 +23,16 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool _isExpandedValue = false;
   late ProductVariation productVariation;
   late List<AvailableProperties> _availableProperties;
+
   @override
   void initState() {
     int id = widget.product.variations[0].id;
-    productVariation =
-        widget.product.variations.firstWhere((element) => element.id == id);
+    productVariation = widget.product.variations.firstWhere((element) => element.id == id);
     _availableProperties = widget.product.availableProperties;
 
     for (var i = 0; i < widget.product.availableProperties.length; i++) {
       List<String> _values = [];
-      for (var j = 0;
-      j < widget.product.availableProperties[i].values.length;
-      j++) {
+      for (var j = 0; j < widget.product.availableProperties[i].values.length; j++) {
         _values.add(widget.product.availableProperties[i].values[j].value);
       }
       _properties[widget.product.availableProperties[i].property] = _values;
@@ -68,71 +64,77 @@ class _ProductDetailsState extends State<ProductDetails> {
           const SizedBox(height: 16),
           _displayPriceRow(),
           const SizedBox(height: 16),
-
-          _properties['Color'] != null
-              ? _buildColorRow(_properties['Color']!)
-              : Container(),
+          _properties['Color'] != null ? _buildColorRow(_properties['Color']!) : Container(),
           _properties['Size'] != null ? _buildSizeDetails() : Container(),
-
-          _properties['Materials'] != null
-              ? _buildMaterialDetails()
-              : Container(),
-
+          _properties['Materials'] != null ? _buildMaterialDetails() : Container(),
           const SizedBox(height: 16),
           _displayDescriptionExpansionPanel(),
 
-          // Display other product details using ListView.builder
-
-          // Display mini images row
         ],
       ),
     );
   }
 
   Widget _displayNameRow() {
+    return SingleChildScrollView(
+      //scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Text(
+              widget.product.name,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: SizedBox(
+              height: 40,
+              width: 40,
+              child: ClipOval(
+                child: Image.network(widget.product.brandLogoUrl!),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _displayPriceRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          widget.product.name,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text(
+            'EGP ${productVariation.price}',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
           ),
         ),
-        SizedBox(
-          height: 50,
-          width: 50,
-          child: ClipOval(
-            child: Image.network(widget.product.brandLogoUrl!),
+        Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: Text(
+            widget.product.brandName!,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+            ),
           ),
         ),
       ],
     );
   }
 
-  _displayPriceRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'EGP ${productVariation.price}',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
-        ),
-        Text(
-          widget.product.brandName!,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
-        ),
-      ],
-    );
-  }
 
   Widget _buildSizeDetails() {
     List<String> size = productVariation.productPropertiesValues
@@ -144,12 +146,17 @@ class _ProductDetailsState extends State<ProductDetails> {
       height: 100,
       child: Column(
         children: [
-          const  Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Select Size',
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
-              Text('Size Chart'),
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Text('Select Size', style: TextStyle(color: Colors.white, fontSize: 15)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 15),
+                child: Text('Size Chart', style: TextStyle(color: Colors.white, fontSize: 15)),
+              ),
             ],
           ),
           SizedBox(
@@ -159,20 +166,22 @@ class _ProductDetailsState extends State<ProductDetails> {
               scrollDirection: Axis.horizontal,
               itemBuilder: ((context, index) {
                 return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    padding: EdgeInsets.all(8.0),
+                  ),
                   child: Text(size[index]),
                   onPressed: () {
                     setState(() {
-                      AvailableProperties sizeProperty =
-                      widget.product.availableProperties.firstWhere(
+                      AvailableProperties sizeProperty = widget.product.availableProperties.firstWhere(
                             (property) => property.property == "Size",
-                        orElse: () =>
-                            AvailableProperties(property: "", values: []),
+                        orElse: () => AvailableProperties(property: "", values: []),
                       );
-                      PropertyValue sizePropertyValue =
-                      sizeProperty.values.firstWhere(
+                      PropertyValue sizePropertyValue = sizeProperty.values.firstWhere(
                             (value) => value.value == size[index],
-                        orElse: () => PropertyValue(
-                            value: "", id: -1), // Default values if not found
+                        orElse: () => PropertyValue(value: "", id: -1), // Default values if not found
                       );
 
                       int sizeId = sizePropertyValue.id;
@@ -191,6 +200,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
     );
   }
+
 
   Widget _buildFullCarousel(index) {
     final List<NetworkImage> images = [];
@@ -254,37 +264,37 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   Widget _buildMiniImagesRow(List<NetworkImage> images) {
     return SizedBox(
-      height: 50,
-      child: ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  carouselIndex = index;
-                  _carouselController.animateToPage(carouselIndex);
-                });
-              },
-              child: Container(
-                margin: const EdgeInsets.all(8.0),
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(
-                    color: carouselIndex == index ? Colors.blue : Colors.grey,
-                    width: 2.0,
-                  ),
-                ),
-                child: Image(
-                  image: images[index],
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          },
-          itemCount: images.length),
+        height: 50,
+        child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+      return GestureDetector            (
+        onTap: () {
+          setState(() {
+            carouselIndex = index;
+            _carouselController.animateToPage(carouselIndex);
+          });
+        },
+        child: Container(
+          margin: const EdgeInsets.all(8.0),
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              color: carouselIndex == index ? Colors.blue : Colors.grey,
+              width: 2.0,
+            ),
+          ),
+          child: Image(
+            image: images[index],
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+        },
+            itemCount: images.length),
     );
   }
 
@@ -312,8 +322,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 );
 
                 // Find the PropertyValue instance with the given color value
-                PropertyValue colorPropertyValue =
-                colorProperty.values.firstWhere(
+                PropertyValue colorPropertyValue = colorProperty.values.firstWhere(
                       (value) => value.value == colors[index],
                   orElse: () => PropertyValue(value: "", id: -1),
                 );
@@ -373,14 +382,14 @@ class _ProductDetailsState extends State<ProductDetails> {
             ExpansionPanel(
               headerBuilder: (context, isExpanded) {
                 return const ListTile(
-                  title: Text('DESCRIPTION'),
+                  title: Text('Description', style: TextStyle(fontWeight: FontWeight.bold)),
                 );
               },
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 30),
                 child: Text(
                   widget.product.description,
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 12, fontStyle: FontStyle.normal),
                 ),
               ),
               isExpanded: _isExpandedValue,
@@ -391,7 +400,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  _buildMaterialDetails() {
+  Widget _buildMaterialDetails() {
     // adds all sizes in this variant to a list
 
     // Assuming productVariation is your ProductVariation instance
@@ -400,16 +409,24 @@ class _ProductDetailsState extends State<ProductDetails> {
         .map((propertyValue) => propertyValue.value)
         .toList();
 
-// Now, sizes contains all size values for the 'Size' property
+    // Now, sizes contains all size values for the 'Size' property
 
     return SizedBox(
       height: 100,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Text(
-            'Select Material',
-            style: TextStyle(color: Colors.white, fontSize: 20),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Text(
+                  'Select Material',
+                  style: TextStyle(color: Colors.white, fontSize: 15),
+                ),
+              ),
+              Text('Material Chart'),
+            ],
           ),
           Center(
             child: SizedBox(
@@ -419,20 +436,22 @@ class _ProductDetailsState extends State<ProductDetails> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: ((context, index) {
                   return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0), // Adjust the radius for an oval shape
+                      ),
+                      padding: EdgeInsets.all(8.0),
+                    ),
                     child: Text(materials[index]),
                     onPressed: () {
                       setState(() {
-                        AvailableProperties materialProperty =
-                        widget.product.availableProperties.firstWhere(
+                        AvailableProperties materialProperty = widget.product.availableProperties.firstWhere(
                               (property) => property.property == "Materials",
-                          orElse: () =>
-                              AvailableProperties(property: "", values: []),
+                          orElse: () => AvailableProperties(property: "", values: []),
                         );
-                        PropertyValue materialPropertyValue =
-                        materialProperty.values.firstWhere(
+                        PropertyValue materialPropertyValue = materialProperty.values.firstWhere(
                               (value) => value.value == materials[index],
-                          orElse: () => PropertyValue(
-                              value: "", id: -1), // Default values if not found
+                          orElse: () => PropertyValue(value: "", id: -1), // Default values if not found
                         );
 
                         int materialId = materialPropertyValue.id;
@@ -447,7 +466,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 itemCount: materials.length,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
