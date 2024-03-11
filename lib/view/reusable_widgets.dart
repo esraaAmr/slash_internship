@@ -9,7 +9,7 @@ Widget reusableScaffold(body,title,Function backFn){
             backFn();
           },
         ),
-        //set title to be in middle
+
         centerTitle: true,
         backgroundColor: Colors.black,
         title: Text(

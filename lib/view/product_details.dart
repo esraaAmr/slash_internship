@@ -9,17 +9,17 @@ import '../model/product_variation_model.dart';
 class ProductDetails extends StatefulWidget {
   final Product product;
 
-  ProductDetails({Key? key, required this.product}) : super(key: key);
+  const ProductDetails({Key? key, required this.product}) : super(key: key);
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  int _currentIndex = 0;
+  final int _currentIndex = 0;
   int carouselIndex = 0;
-  CarouselController _carouselController = CarouselController();
-  Map<String, List<String>> _properties = {};
+  final CarouselController _carouselController = CarouselController();
+  final Map<String, List<String>> _properties = {};
   bool _isExpandedValue = false;
   late ProductVariation productVariation;
   late List<AvailableProperties> _availableProperties;
@@ -31,11 +31,11 @@ class _ProductDetailsState extends State<ProductDetails> {
     _availableProperties = widget.product.availableProperties;
 
     for (var i = 0; i < widget.product.availableProperties.length; i++) {
-      List<String> _values = [];
+      List<String> values = [];
       for (var j = 0; j < widget.product.availableProperties[i].values.length; j++) {
-        _values.add(widget.product.availableProperties[i].values[j].value);
+        values.add(widget.product.availableProperties[i].values[j].value);
       }
-      _properties[widget.product.availableProperties[i].property] = _values;
+      _properties[widget.product.availableProperties[i].property] = values;
     }
     super.initState();
   }
@@ -170,8 +170,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    padding: EdgeInsets.all(8.0),
-                    backgroundColor: Color(0xFFc9e83f),
+                    padding: const EdgeInsets.all(8.0),
+                    backgroundColor: const Color(0xFFc9e83f),
 
                   ),
                   child: Text(size[index],style: TextStyle(color: Colors.black),),
@@ -446,11 +446,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
-                      padding: EdgeInsets.all(8.0),
-                      backgroundColor: Color(0xFFc9e83f),
+                      padding: const EdgeInsets.all(8.0),
+                      backgroundColor: const Color(0xFFc9e83f),
 
                     ),
-                    child: Text(materials[index],style: TextStyle(color: Colors.black),),
+                    child: Text(materials[index],style: const TextStyle(color: Colors.black),),
 
                     onPressed: () {
                       setState(() {
