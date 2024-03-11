@@ -1,16 +1,9 @@
-# slash_internship
+# Slash_Flutter_Internship
 
-A new Flutter project.
+This mobile application is designed to retrieve diverse product data from the backend and present it on the user interface. The complexity lies in the varied nature of product information. For instance, a product could be apparel, featuring size, color, and material specifications. On the other hand, another product may be a print item, with size as the primary attribute and without material variations. Managing this range of product types and attributes poses a significant challenge, requiring a sophisticated approach to data handling and display.
 
-## Getting Started
+## Demo
 
-This project is a starting point for a Flutter application.
+https://drive.google.com/file/d/10UpjGJ1D8SpQJehB6h24vUD3yDddsPJW/view?ts=65ef77f3
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
