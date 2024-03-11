@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:slash_internship/view/reusable_widgets.dart';
+import 'package:slash_internship/view/custom_widget.dart';
 
 import '../model/available_properties_model.dart';
 import '../model/product_model.dart';
@@ -42,7 +42,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return reusableScaffold(
+    return buildCustomWidget(
       _productDetails(_currentIndex),
       'Product details',
           () {
@@ -202,7 +202,6 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
     );
   }
-
 
   Widget _buildFullCarousel(index) {
     final List<NetworkImage> images = [];
@@ -403,15 +402,10 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   Widget _buildMaterialDetails() {
-    // adds all sizes in this variant to a list
-
-    // Assuming productVariation is your ProductVariation instance
     List<String> materials = productVariation.productPropertiesValues
         .where((propertyValue) => propertyValue.property == 'Materials')
         .map((propertyValue) => propertyValue.value)
         .toList();
-
-    // Now, sizes contains all size values for the 'Size' property
 
     return SizedBox(
       height: 100,
@@ -426,11 +420,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                   'Select Material',
                   style: TextStyle(color: Colors.white, fontSize: 15),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 15),
-                child: Text('Material Chart',
-                    style: TextStyle(color: Colors.white, fontSize: 15)),
               ),
             ],
           ),
